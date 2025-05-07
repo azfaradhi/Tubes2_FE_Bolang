@@ -1,0 +1,16 @@
+{
+    "name": "Brick",
+    "children": [
+      {
+        "name": "Mud",
+        "children": [
+          { "name": "Water" },
+          { "name": "Earth" }
+        ]
+      },
+      {
+        "name": "Fire"
+      }
+    ]
+  }
+  
