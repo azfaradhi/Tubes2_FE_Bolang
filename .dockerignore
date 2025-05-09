@@ -1,0 +1,21 @@
+# Umum
+node_modules
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+README.md
+.env
+*.log
+npm-debug.log
+
+# Next.js atau React
+.next
+out
+dist
+build
+
+# Editor/OS files
+.vscode
+.DS_Store
+Thumbs.db
