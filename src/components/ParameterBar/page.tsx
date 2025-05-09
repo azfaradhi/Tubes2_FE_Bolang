@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import recipeData from "@/data/elements.json";
+import recipeData from "@/data/images.json";
+
 
 type inputData = {
   element: string;
@@ -10,12 +11,13 @@ type inputData = {
 }
 
 export default function ParameterBar({ onSelect }: { onSelect: (value: inputData) => void }) {
+  const recipeNames: string[] = recipeData.map(recipe => recipe.name);
   const [filtered, setFiltered] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [element, setElement] = useState('');
   const [algoritm, setAlgorithm] = useState('');
   const [method, setMethod] = useState('');
-  const [count, setCount] = useState('');
+  const [count, setCount] = useState('0');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -23,9 +25,9 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
     if (value === '') {
       setFiltered([]);
       setShowDropdown(false);
-    } 
+    }
     else {
-      const matches = recipeData.filter(el =>
+      const matches = recipeNames.filter(el =>
         el.toLowerCase().includes(value.toLowerCase())
       );
       setFiltered(matches);
@@ -38,7 +40,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
     setShowDropdown(false);
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
     console.log('Element: ', element);
     console.log('Algorithm: ', algoritm);
     console.log('Method: ', method);
@@ -53,12 +55,33 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
       method,
       count
     });
+
+    try {
+      const result = await fetch('http://localhost:8080/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          element: element,
+          algorithm: algoritm,
+          method: method,
+          count: count
+        }),
+      });
+      const data = await result.json();
+      console.log("Response:", data);
+    }
+    catch (error) {
+      console.error("Error sending parameter:", error);
+    }
+
   };
 
   return (
-    <div className="flex flex-col items-center max-w-full  bg-[#D09D48] rounded-[16px] px-6 py-8">
+    <div className="flex flex-col items-center bg-[#D09D48] rounded-[16px] px-6 py-8">
       <h1 className="text-[#4E3625] text-[24px] font-serif font-bold mb-4">SEARCH</h1>
-  
+
       {/* Search Bar */}
       <div className="relative w-full">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Elements:</p>
@@ -69,7 +92,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
           value={element}
           onChange={handleChange}
         />
-  
+
         {showDropdown && filtered.length > 0 && (
           <ul className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-md max-h-60 overflow-y-auto z-10">
             {filtered.map((item, idx) => (
@@ -84,59 +107,79 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
           </ul>
         )}
       </div>
-  
+
       {/* Algorithm Dropdown */}
       <div className="w-full mt-4">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Algorithm:</p>
-          <select
-            name="Algorithm"
-            className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
-            onChange={(e) => setAlgorithm(e.target.value)}
+        <div className="flex justify-between gap-2">
+          <button
+            className={`flex-1 py-1 rounded-2xl ${algoritm === 'BFS'
+                ? 'bg-[#A4752A] text-white'
+                : 'bg-[#F2EAD3] text-[#333333]'
+              } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
+            onClick={() => setAlgorithm('BFS')}
           >
-            <option value="" disabled hidden>Algorithm</option>
-            <option value="BFS">BFS</option>
-            <option value="DFS">DFS</option>
-            <option value="BID">Bidirectional</option>
-          </select>
+            BFS
+          </button>
+          <button
+            className={`flex-1 py-1 rounded-2xl ${algoritm === 'DFS'
+                ? 'bg-[#A4752A] text-white'
+                : 'bg-[#F2EAD3] text-[#333333]'
+              } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
+            onClick={() => setAlgorithm('DFS')}
+          >
+            DFS
+          </button>
+          <button
+            className={`flex-1 py-1 rounded-2xl ${algoritm === 'BID'
+                ? 'bg-[#A4752A] text-white'
+                : 'bg-[#F2EAD3] text-[#333333]'
+              } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
+            onClick={() => setAlgorithm('BID')}
+          >
+            BID
+          </button>
+        </div>
       </div>
-  
 
       {/* methode Dropdown */}
       <div className="w-full mt-4">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Method:</p>
-          <select
-            name="Method"
-            className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
-            onChange={(e) => setMethod(e.target.value)}
-          >
-            <option value="" disabled hidden>Method</option>
-            <option value="ShortestPath">Shortest Path</option>
-            <option value="MultiplieRecipe">Multiplie Recipe</option>
-          </select>
+        <select
+          name="Method"
+          className={`w-full py-1 rounded-2xl bg-[#F2EAD3] ${method === '' ? 'text-[#666666]' : 'text-[#333333]'
+            } text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition`}
+          value={method}
+          onChange={(e) => setMethod(e.target.value)}
+        >
+          <option value="" disabled hidden>Select Method</option>
+          <option value="ShortestPath">Shortest Path</option>
+          <option value="MultiplieRecipe">Multiplie Recipe</option>
+        </select>
       </div>
 
       {/* Count */}
       {method === "MultiplieRecipe" && (
         <div className="w-full mt-4">
           <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Recipe Parameter: </p>
-            <select
-              name="Method"
-              className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
-              onChange={(e) => setCount(e.target.value)}
-            >
-              <option value="" disabled hidden>Method</option>
-              {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
+          <select
+            name="Method"
+            className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
+            onChange={(e) => setCount(e.target.value)}
+          >
+            <option value="" disabled hidden>Method</option>
+            {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 
-    {/* apply button */}
+      {/* apply button */}
       <div className="w-full mt-20">
-        <button 
+        <button
           onClick={handleApply}
 
           className="w-full py-2 bg-[#A4752A] text-white rounded-2xl shadow-md hover:bg-[#8B5B2A] transition duration-200">
@@ -145,5 +188,5 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
       </div>
     </div>
   );
-  
+
 }
