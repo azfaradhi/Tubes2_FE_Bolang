@@ -5,21 +5,16 @@ import TreeRecipe from '@/components/TreeRecipe/page';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { RawNodeDatum } from 'react-d3-tree';
+import { inputData } from '@/types/types';
 
 type ResultData = {
     time: string,
     node: string,
 }
 
-type inputData = {
-    element: string;
-    algorithm: string;
-    method: string;
-    count: string;
-}
 
 
-export default function ({ parameter }: { parameter: inputData }) {
+export default function ({}: {}) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [isComeBack, setIsComeBack] = useState(false);

@@ -4,13 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
+import { inputData } from "@/types/types";
 
-type inputData = {
-  element: string;
-  algorithm: string;
-  method: string;
-  count: string;
-}
 
 export default function Home() {
   const router = useRouter();

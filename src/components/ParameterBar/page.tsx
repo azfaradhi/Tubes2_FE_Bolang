@@ -1,14 +1,7 @@
 'use client';
 import { useState } from 'react';
 import recipeData from "@/data/images.json";
-
-
-type inputData = {
-  element: string;
-  algorithm: string;
-  method: string;
-  count: string;
-}
+import { inputData } from "@/types/types";
 
 export default function ParameterBar({ onSelect }: { onSelect: (value: inputData) => void }) {
   const recipeNames: string[] = recipeData.map(recipe => recipe.name);
