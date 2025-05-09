@@ -1,16 +1,126 @@
-{
-    "name": "Brick",
+[
+  {
+    "name": "Earthquake",
     "children": [
       {
-        "name": "Mud",
+        "name": "Earth + Energy",
         "children": [
-          { "name": "Water" },
-          { "name": "Earth" }
+          {
+            "name": "Earth"
+          },
+          {
+            "name": "Energy",
+            "children": [
+              {
+                "name": "Air + Fire",
+                "children": [
+                  {
+                    "name": "Air"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              },
+              {
+                "name": "Fire + Fire",
+                "children": [
+                  {
+                    "name": "Fire"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              }
+            ]
+          }
         ]
-      },
-      {
-        "name": "Fire"
       }
-    ]
+    ],
+    "highlight": true
+  },
+
+  {
+    "name": "efrgdbfhgfd",
+    "children": [
+      {
+        "name": "Earth + Energy",
+        "children": [
+          {
+            "name": "Earth"
+          },
+          {
+            "name": "Energy",
+            "children": [
+              {
+                "name": "Air + Fire",
+                "children": [
+                  {
+                    "name": "Air"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              },
+              {
+                "name": "Fire + Fire",
+                "children": [
+                  {
+                    "name": "Fire"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "highlight": true
+  },
+ {
+    "name": "efrqwertyugdbfhgfd",
+    "children": [
+      {
+        "name": "Earth + Energy",
+        "children": [
+          {
+            "name": "Earth"
+          },
+          {
+            "name": "Energy",
+            "children": [
+              {
+                "name": "Air + Fire",
+                "children": [
+                  {
+                    "name": "Air"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              },
+              {
+                "name": "Fire + Fire",
+                "children": [
+                  {
+                    "name": "Fire"
+                  },
+                  {
+                    "name": "Fire"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "highlight": true
   }
-  
+]
