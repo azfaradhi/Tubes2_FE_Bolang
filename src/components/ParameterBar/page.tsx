@@ -9,7 +9,6 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
   const [showDropdown, setShowDropdown] = useState(false);
   const [element, setElement] = useState('');
   const [algoritm, setAlgorithm] = useState('');
-  const [method, setMethod] = useState('');
   const [count, setCount] = useState('0');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,43 +32,20 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
     setShowDropdown(false);
   };
 
-  const handleApply = async () => {
-    console.log('Element: ', element);
-    console.log('Algorithm: ', algoritm);
-    console.log('Method: ', method);
-    console.log('Count: ', count);
-    if (element === '' || algoritm === '' || method === '') {
+  const handleApply = () => {
+    if (element === '' || algoritm === '' || count === '') {
       alert('Please fill in all fields.');
       return;
     }
+
     onSelect({
       element: element,
       algorithm: algoritm,
-      method,
-      count
+      count: count,
     });
+  }
 
-    try {
-      const result = await fetch('http://localhost:8080/apply', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          element: element,
-          algorithm: algoritm,
-          method: method,
-          count: count
-        }),
-      });
-      const data = await result.json();
-      console.log("Response:", data);
-    }
-    catch (error) {
-      console.error("Error sending parameter:", error);
-    }
 
-  };
 
   return (
     <div className="flex flex-col items-center bg-[#D09D48] rounded-[16px] px-6 py-8">
@@ -107,8 +83,8 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
         <div className="flex justify-between gap-2">
           <button
             className={`flex-1 py-1 rounded-2xl ${algoritm === 'BFS'
-                ? 'bg-[#A4752A] text-white'
-                : 'bg-[#F2EAD3] text-[#333333]'
+              ? 'bg-[#A4752A] text-white'
+              : 'bg-[#F2EAD3] text-[#333333]'
               } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
             onClick={() => setAlgorithm('BFS')}
           >
@@ -116,8 +92,8 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
           </button>
           <button
             className={`flex-1 py-1 rounded-2xl ${algoritm === 'DFS'
-                ? 'bg-[#A4752A] text-white'
-                : 'bg-[#F2EAD3] text-[#333333]'
+              ? 'bg-[#A4752A] text-white'
+              : 'bg-[#F2EAD3] text-[#333333]'
               } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
             onClick={() => setAlgorithm('DFS')}
           >
@@ -125,8 +101,8 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
           </button>
           <button
             className={`flex-1 py-1 rounded-2xl ${algoritm === 'BID'
-                ? 'bg-[#A4752A] text-white'
-                : 'bg-[#F2EAD3] text-[#333333]'
+              ? 'bg-[#A4752A] text-white'
+              : 'bg-[#F2EAD3] text-[#333333]'
               } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
             onClick={() => setAlgorithm('BID')}
           >
@@ -135,46 +111,27 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
         </div>
       </div>
 
-      {/* methode Dropdown */}
+      {/* Count */}
       <div className="w-full mt-4">
-        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Method:</p>
+        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Recipe Parameter: </p>
         <select
-          name="Method"
-          className={`w-full py-1 rounded-2xl bg-[#F2EAD3] ${method === '' ? 'text-[#666666]' : 'text-[#333333]'
-            } text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition`}
-          value={method}
-          onChange={(e) => setMethod(e.target.value)}
+          name="Recipe"
+          className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
+          onChange={(e) => setCount(e.target.value.toString())}
         >
-          <option value="" disabled hidden>Select Method</option>
-          <option value="ShortestPath">Shortest Path</option>
-          <option value="MultiplieRecipe">Multiplie Recipe</option>
+          <option value="" disabled hidden>Recipe</option>
+          {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
         </select>
       </div>
-
-      {/* Count */}
-      {method === "MultiplieRecipe" && (
-        <div className="w-full mt-4">
-          <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Recipe Parameter: </p>
-          <select
-            name="Method"
-            className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
-            onChange={(e) => setCount(e.target.value)}
-          >
-            <option value="" disabled hidden>Method</option>
-            {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
 
       {/* apply button */}
       <div className="w-full mt-20">
         <button
           onClick={handleApply}
-
           className="w-full py-2 bg-[#A4752A] text-white rounded-2xl shadow-md hover:bg-[#8B5B2A] transition duration-200">
           Apply
         </button>
