@@ -42,9 +42,6 @@ export default function ResultPage() {
         }
 
         console.log('Connecting to WebSocket with parameters:');
-        console.log('Element: ', params.element);
-        console.log('Algorithm: ', params.algorithm);
-        console.log('Count: ', params.count);
         
         if (socketRef.current && (socketRef.current.readyState === WebSocket.OPEN || 
             socketRef.current.readyState === WebSocket.CONNECTING)) {
@@ -87,12 +84,10 @@ export default function ResultPage() {
                     
                     if (data.treeData) {
                         console.log("Tree data received!");
+                        console.log("Tree data:", data.treeData);
                         
                         const treeCopy = JSON.parse(JSON.stringify(data.treeData));
-                        console.log("Setting tree data:", treeCopy);
                         setTreeData(treeCopy);
-                        
-                        setIsLoading(false);
                     }
                     
                     if (data.resultInfo) {
@@ -156,37 +151,37 @@ export default function ResultPage() {
 
     return (
         <div className="flex flex-col py-6 h-screen">
-            {isLoading ? (
-                <div className="flex flex-col justify-center items-center h-full">
-                    <p className="text-[#F2EAD3] text-[24px] font-serif">Loading...</p>
-                    <p className="text-[#F2EAD3] text-[16px] mt-2">{wsStatus}</p>
-                </div>
-            ) : (
-                <div className='flex flex-col mx-8 mt-8'>
-                    <div className="flex justify-between mb-4">
-                        <div className="text-xs text-gray-400">
-                            WebSocket Status: <span className={wsStatus.includes("Completed") ? "text-green-400" : "text-yellow-400"}>{wsStatus}</span>
-                        </div>
+            <div className="flex flex-col mx-8 mt-8">
+                <div className="flex justify-between mb-4">
+                    <div className="text-xs text-gray-400">
+                        WebSocket Status: <span className={wsStatus.includes("Completed") ? "text-green-400" : "text-yellow-400"}>{wsStatus}</span>
                     </div>
-                    
-                    <div className="flex flex-row">
+                </div>
+                
+                <div className="flex flex-row">
+                    {isLoading ? (
+                        <div></div>
+                    ) : (
                         <ResultBar resultInfo={resultInfo} onSelect={handleSelect} />
-                        {Array.isArray(treeData) && treeData.length > 0 ? (
-                            <TreeRecipe treeData={treeData} />
-                        ) : (
-                            <div className="flex justify-center items-center w-full">
-                                <p className="text-[#F2EAD3]">No tree data received yet</p>
-                                <button 
-                                    className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                                    onClick={() => console.log("Current tree data:", treeData)}
-                                >
-                                    Debug Data
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    )}
+                    
+                    {Array.isArray(treeData) && treeData.length > 0 ? (
+                        <div className="w-3/4 relative">
+                            {isLoading && (
+                                <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-md z-10">
+                                    Processing...
+                                </div>
+                            )}
+                            <TreeRecipe treeData={treeData} toFind={params.element} />
+                        </div>
+                    ) : (
+                        <div className="flex justify-center items-center w-full">
+                            <p className="text-[#F2EAD3]">Loading...</p>
+                        </div>
+                    )}
                 </div>
-            )}
+                
+            </div>
         </div>
     );
 }
