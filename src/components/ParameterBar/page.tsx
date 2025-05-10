@@ -33,7 +33,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
   };
 
   const handleApply = () => {
-    if (element === '' || algoritm === '' || count === '') {
+    if (element === '' || algoritm === '' || count === '0') {
       alert('Please fill in all fields.');
       return;
     }
@@ -115,15 +115,15 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
       <div className="w-full mt-4">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Recipe Parameter: </p>
         <select
-          name="Recipe"
+          value={count}
           className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
           onChange={(e) => setCount(e.target.value.toString())}
         >
-          <option value="" disabled hidden>Recipe</option>
+          <option value="0">Select a number</option>
           {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
-            <option key={num} value={num}>
-              {num}
-            </option>
+        <option key={num} value={num}>
+          {num}
+        </option>
           ))}
         </select>
       </div>
