@@ -2,13 +2,15 @@
 import Tree, { RawNodeDatum } from "react-d3-tree";
 import { useState } from "react";
 import imageList from "@/data/images.json";
+import basic from "@/data/basic.json";
+
 
 type ElementImage = {
   name: string;
   image_url: string;
 }
 
-export default function TreeRecipe({ treeData }: { treeData: RawNodeDatum[] | null }) {
+export default function TreeRecipe({toFind, treeData }: { toFind: string, treeData: RawNodeDatum[] | null }) {
 
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = treeData?.length || 0;
@@ -32,7 +34,7 @@ export default function TreeRecipe({ treeData }: { treeData: RawNodeDatum[] | nu
 
     return (
       <foreignObject width={120} height={120} x={-60} >
-        <div className="flex flex-col items-center bg-white rounded-lg p-2 box-border border-2 border-black">
+        <div className={`flex flex-col items-center rounded-lg p-2 box-border border-2 border-black ${basic.includes(nodeDatum.name) ? 'bg-green-500' : 'bg-white'}`}>
           {/* {imageSrc && (
             <img
               src={imageSrc}
@@ -44,7 +46,6 @@ export default function TreeRecipe({ treeData }: { treeData: RawNodeDatum[] | nu
             />
           )} */}
           <a href={imageSrc} target="_blank" rel="noopener noreferrer" className="text-xs text-black text-center">{nodeDatum.name}</a>
-          {/* <div className="text-xs text-black text-center">{nodeDatum.name}</div> */}
         </div>
       </foreignObject>
     );
@@ -63,9 +64,6 @@ export default function TreeRecipe({ treeData }: { treeData: RawNodeDatum[] | nu
           />
         </div>
       </div>
-      {/* <div className="text-end font-serif text-white">
-        Click on the element to see the image!
-      </div> */}
       <div className="flex gap-4 mt-4 justify-center w-full">
 
         <button
