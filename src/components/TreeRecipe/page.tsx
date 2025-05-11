@@ -31,20 +31,21 @@ export default function TreeRecipe({toFind, treeData }: { toFind: string, treeDa
 
   const renderCustomNode = ({ nodeDatum }: { nodeDatum: any }) => {
     const imageSrc = findImageByName(nodeDatum.name);
+    const link = `/Elements/${nodeDatum.name.replace(/ /g, '_')}.png`;
 
     return (
       <foreignObject width={120} height={120} x={-60} >
         <div className={`flex flex-col items-center rounded-lg p-2 box-border border-2 border-black ${basic.includes(nodeDatum.name) ? 'bg-green-500' : 'bg-white'}`}>
-          {/* {imageSrc && (
+          {imageSrc && (
             <img
-              src={imageSrc}
+              src={link}
               alt={nodeDatum.name}
               width={50}
               height={50}
-              className="mb-2 object-contain border border-gray-300"
+              className="mb-2 object-contain"
               crossOrigin="anonymous"
             />
-          )} */}
+          )}
           <a href={imageSrc} target="_blank" rel="noopener noreferrer" className="text-xs text-black text-center">{nodeDatum.name}</a>
         </div>
       </foreignObject>
@@ -61,6 +62,7 @@ export default function TreeRecipe({toFind, treeData }: { toFind: string, treeDa
             orientation="vertical"
             translate={{ x: 300, y: 40 }}
             renderCustomNodeElement={renderCustomNode}
+            nodeSize={{ x: 200, y: 200 }}
           />
         </div>
       </div>
