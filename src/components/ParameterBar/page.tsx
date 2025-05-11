@@ -10,6 +10,8 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
   const [element, setElement] = useState('');
   const [algoritm, setAlgorithm] = useState('');
   const [count, setCount] = useState('0');
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const [delayInput, setDelayInput] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -37,11 +39,14 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
       alert('Please fill in all fields.');
       return;
     }
+    console.log("Delay: ", delayInput);
 
     onSelect({
       element: element,
       algorithm: algoritm,
       count: count,
+      liveUpdate: liveUpdate,
+      delay: delayInput
     });
   }
 
@@ -121,15 +126,52 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
         >
           <option value="0">Select a number</option>
           {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
-        <option key={num} value={num}>
-          {num}
-        </option>
+            <option key={num} value={num}>
+              {num}
+            </option>
           ))}
         </select>
       </div>
+      {/* Algorithm Dropdown */}
+      <div className="w-full mt-4">
+        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Live Update?</p>
+        <div className="flex justify-between gap-2">
+          <button
+            className={`flex-1 py-1 rounded-2xl ${liveUpdate === true
+              ? 'bg-[#A4752A] text-white'
+              : 'bg-[#F2EAD3] text-[#333333]'
+              } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
+            onClick={() => setLiveUpdate(true)}
+          >
+            Yes
+          </button>
+          <button
+            className={`flex-1 py-1 rounded-2xl ${liveUpdate === false
+              ? 'bg-[#A4752A] text-white'
+              : 'bg-[#F2EAD3] text-[#333333]'
+              } shadow-md hover:bg-[#A4752A] hover:text-white transition`}
+            onClick={() => setLiveUpdate(false)}
+          >
+            No
+          </button>
+        </div>
+      </div>
+
+      {liveUpdate && (
+      <div className="w-full mt-4">
+        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Delay (ms):</p>
+        <input
+          type="number"
+          placeholder="Delay"
+          className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
+          value={delayInput}
+          onChange={(e) => setDelayInput(Number(e.target.value))}
+        />
+      </div>
+      )}
 
       {/* apply button */}
-      <div className="w-full mt-20">
+      <div className="w-full mt-10">
         <button
           onClick={handleApply}
           className="w-full py-2 bg-[#A4752A] text-white rounded-2xl shadow-md hover:bg-[#8B5B2A] transition duration-200">
