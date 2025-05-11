@@ -78,6 +78,9 @@ export default function ResultPage() {
                     
                     const data = JSON.parse(event.data);
                     
+                    if (data.duration){
+                        setResultInfo({ time: data.duration.toString(), node: "0" })
+                    }
                     if (data.status) {
                         setWsStatus(`Status: ${data.status} - ${data.message || ''}`);
                     }
@@ -150,23 +153,21 @@ export default function ResultPage() {
     }
 
     return (
-        <div className="flex flex-col py-6 h-screen">
-            <div className="flex flex-col mx-8 mt-8">
+        <div className="flex flex-col py-6 h-screen ">
+            <div className="flex flex-col mx-8 mt-8 h-screen">
                 <div className="flex justify-between mb-4">
                     <div className="text-xs text-gray-400">
-                        WebSocket Status: <span className={wsStatus.includes("Completed") ? "text-green-400" : "text-yellow-400"}>{wsStatus}</span>
+                        Server Status: <span className={wsStatus.includes("Completed") ? "text-green-400" : "text-yellow-400"}>{wsStatus}</span>
                     </div>
                 </div>
                 
-                <div className="flex flex-row">
-                    {isLoading ? (
-                        <div></div>
-                    ) : (
+                <div className="flex flex-row h-full">
+                    {!isLoading && (
                         <ResultBar resultInfo={resultInfo} onSelect={handleSelect} />
                     )}
                     
                     {Array.isArray(treeData) && treeData.length > 0 ? (
-                        <div className="w-3/4 relative">
+                        <div className="w-full">
                             {isLoading && (
                                 <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-md z-10">
                                     Processing...
