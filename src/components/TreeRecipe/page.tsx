@@ -55,7 +55,7 @@ export default function TreeRecipe({toFind, treeData }: { toFind: string, treeDa
   return (
     <div className="flex flex-col w-full h-full">
       <div className="bg-[#EBD1A9] w-full h-full flex flex-col items-center">
-        <div className="w-full h-[500px] flex justify-center items-center p-4 ">
+        <div className="w-full h-full flex justify-center items-center">
           <Tree
             data={treeData?.[currentPage] || { name: '', children: [] }}
             orientation="vertical"
