@@ -19,7 +19,9 @@ export default function Home() {
       const queryParams = new URLSearchParams({
         element: selectedData.element,
         algorithm: selectedData.algorithm,
-        count: selectedData.count
+        count: selectedData.count,
+        liveUpdate: selectedData.liveUpdate.toString(),
+        delay: selectedData.delay.toString()
       }).toString();
 
       router.push(`/result?${queryParams}`);

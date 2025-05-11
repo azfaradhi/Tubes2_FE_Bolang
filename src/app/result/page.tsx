@@ -19,7 +19,9 @@ export default function ResultPage() {
     const [params, setParams] = useState({
         element: '',
         algorithm: '',
-        count: ''
+        count: '',
+        liveUpdate: false,
+        delay: 0
     });
 
     const [wsStatus, setWsStatus] = useState("Waiting for connection...");
@@ -30,9 +32,11 @@ export default function ResultPage() {
         const element = urlParams.get('element') || '';
         const algorithm = urlParams.get('algorithm') || '';
         const count = urlParams.get('count') || '';
+        const liveUpdate = urlParams.get('liveUpdate') === 'true';
+        const delay = parseInt(urlParams.get('delay') || '0', 10);
 
-        setParams({ element, algorithm, count });
-        console.log('Query Params:', { element, algorithm, count });
+        setParams({ element, algorithm, count, liveUpdate , delay});
+        console.log('Query Params:', { element, algorithm, count, liveUpdate, delay});
     }, []);
 
     useEffect(() => {
@@ -61,6 +65,8 @@ export default function ResultPage() {
                     algorithm: params.algorithm,
                     target: params.element,
                     maxRecipes: params.count,
+                    liveUpdate: params.liveUpdate,
+                    delay : params.delay
                 };
                 
                 console.log("Sending data to server:", data);
@@ -82,7 +88,7 @@ export default function ResultPage() {
                         setResultInfo({ time: data.duration.toString(), node: "0" })
                     }
                     if (data.status) {
-                        setWsStatus(`Status: ${data.status} - ${data.message || ''}`);
+                        setWsStatus(`${data.status} - ${data.message || ''}`);
                     }
                     
                     if (data.treeData) {
@@ -97,6 +103,8 @@ export default function ResultPage() {
                         console.log("Result info received:", data.resultInfo);
                         setResultInfo(data.resultInfo);
                     }
+
+
                     
                     if (data.status === "Completed") {
                         console.log("Processing completed");
@@ -107,6 +115,11 @@ export default function ResultPage() {
                         console.error("Server error:", data.error);
                         setWsStatus(`Error: ${data.error}`);
                         setIsLoading(false);
+                    }
+
+                    if (data.nodes) {
+                        console.log("Nodes received:", data.nodes);
+                        setResultInfo({ time: data.duration.toString(), node: data.nodes.toString() })
                     }
                 } catch (error) {
                     console.error("Error parsing WebSocket message:", error);
@@ -168,11 +181,11 @@ export default function ResultPage() {
                     
                     {Array.isArray(treeData) && treeData.length > 0 ? (
                         <div className="w-full">
-                            {isLoading && (
+                            {/* {isLoading && (
                                 <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-md z-10">
                                     Processing...
                                 </div>
-                            )}
+                            )} */}
                             <TreeRecipe treeData={treeData} toFind={params.element} />
                         </div>
                     ) : (
