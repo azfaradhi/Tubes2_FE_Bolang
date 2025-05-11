@@ -49,7 +49,7 @@ export default function ResultPage() {
         }
         
         try {
-            const socket = new WebSocket('ws://localhost:8080/ws');
+            const socket = new WebSocket(process.env.NEXT_PUBLIC_BACKEND_WS || "ws://localhost:8080/ws");
             socketRef.current = socket;
             setWsStatus("Connecting...");
 
