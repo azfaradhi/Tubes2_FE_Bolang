@@ -53,7 +53,7 @@ export default function ResultPage() {
         }
         
         try {
-            const socket = new WebSocket(process.env.NEXT_PUBLIC_BACKEND_WS || "ws://localhost:8080/ws");
+            const socket = new WebSocket(process.env.NEXT_PUBLIC_LOCAL_WEBSOCKET_URL || 'ws://localhost:8080/ws');
             socketRef.current = socket;
             setWsStatus("Connecting...");
 
@@ -186,7 +186,7 @@ export default function ResultPage() {
                                     Processing...
                                 </div>
                             )} */}
-                            <TreeRecipe treeData={treeData} toFind={params.element} />
+                            <TreeRecipe treeData={treeData} />
                         </div>
                     ) : (
                         <div className="flex justify-center items-center w-full">
