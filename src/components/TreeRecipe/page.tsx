@@ -5,12 +5,7 @@ import imageList from "@/data/images.json";
 import basic from "@/data/basic.json";
 
 
-type ElementImage = {
-  name: string;
-  image_url: string;
-}
-
-export default function TreeRecipe({toFind, treeData }: { toFind: string, treeData: RawNodeDatum[] | null }) {
+export default function TreeRecipe({treeData}: {treeData: RawNodeDatum[] | null }) {
 
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = treeData?.length || 0;
@@ -29,7 +24,7 @@ export default function TreeRecipe({toFind, treeData }: { toFind: string, treeDa
   };
 
 
-  const renderCustomNode = ({ nodeDatum }: { nodeDatum: any }) => {
+  const renderCustomNode = ({ nodeDatum }: { nodeDatum: RawNodeDatum }) => {
     const imageSrc = findImageByName(nodeDatum.name);
     const link = `/Elements/${nodeDatum.name.replace(/ /g, '_')}.png`;
 
