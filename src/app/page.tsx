@@ -39,7 +39,10 @@ export default function Home() {
   return (
     <div className="flex flex-col py-10 h-screen ">
       <div>
-        <h1 className="font-bold text-center font-serif text-[48px] text-[#F2EAD3]">Alchemy Finder</h1>
+       <div className="flex items-center justify-center gap-x-3"> {/* Adjust gap as needed */}
+        <img src={"/alchemy-logo.png"} width={30} alt="Alchemy Logo" />
+        <h1 className="font-bold font-serif text-[48px] text-[#F2EAD3]">Alchemy Finder</h1>
+      </div>
         <p className="font-semibold text-center font-serif text-[20px] text-[#F2EAD3]">Explore elements and their combination</p>
       </div>
 
@@ -54,7 +57,7 @@ export default function Home() {
             <h2 className="text-xl font-bold text-center">About</h2>
 
             <p className="text-justify">
-              <strong>Alchemy Finder</strong> is an open-source visualization tool for exploring combinations of elements using BFS/DFS/BID(Bidirectional) algorithms. Multiplie recipe method is used here, and is required to input the number of recipe. It is designed for educational purposes, creative exploration, and experimentation.
+              <strong>Alchemy Finder</strong> is an open-source visualization tool for exploring combinations of elements using BFS/DFS/BID(Bidirectional) algorithms. Multiplie recipe method is used here, and is required to input the number of recipe. It is designed for educational purposes, creative exploration, and experimentation. To be used with <a href="https://littlealchemy2.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-200">Little Alchemy 2</a>
             </p>
 
             <p className="text-justify">
