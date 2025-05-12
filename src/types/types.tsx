@@ -1,7 +1,7 @@
 type inputData = {
   element: string;
   algorithm: string;
-  count: string;
+  count: number;
   liveUpdate: boolean;
   delay: number;
 }

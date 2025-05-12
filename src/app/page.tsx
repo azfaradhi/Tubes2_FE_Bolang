@@ -19,7 +19,7 @@ export default function Home() {
       const queryParams = new URLSearchParams({
         element: selectedData.element,
         algorithm: selectedData.algorithm,
-        count: selectedData.count,
+        count: selectedData.count.toString(),
         liveUpdate: selectedData.liveUpdate.toString(),
         delay: selectedData.delay.toString()
       }).toString();
@@ -43,7 +43,7 @@ export default function Home() {
         <p className="font-semibold text-center font-serif text-[20px] text-[#F2EAD3]">Explore elements and their combination</p>
       </div>
 
-      <div className="flex flex-row justify-center mt-10 items-center">
+      <div className="flex flex-row justify-center mt-6 items-center">
         {isParameter && (
           <div className="mx-10 w-1/4">
             <ParameterBar onSelect={handleParameterSelect} />
@@ -85,10 +85,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="border-t border-white opacity-50"></div>
-
             <p className="text-xs text-center italic">
-              Built with 🫡 by Bolang, 2025
             </p>
           </div>
         )}

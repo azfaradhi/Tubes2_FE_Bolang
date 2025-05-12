@@ -19,7 +19,7 @@ export default function ResultPage() {
     const [params, setParams] = useState({
         element: '',
         algorithm: '',
-        count: '',
+        count: 0,
         liveUpdate: false,
         delay: 0
     });
@@ -31,7 +31,7 @@ export default function ResultPage() {
         const urlParams = new URLSearchParams(window.location.search);
         const element = urlParams.get('element') || '';
         const algorithm = urlParams.get('algorithm') || '';
-        const count = urlParams.get('count') || '';
+        const count = parseInt(urlParams.get('count') || '0', 0);
         const liveUpdate = urlParams.get('liveUpdate') === 'true';
         const delay = parseInt(urlParams.get('delay') || '0', 10);
 

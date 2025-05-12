@@ -9,7 +9,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
   const [showDropdown, setShowDropdown] = useState(false);
   const [element, setElement] = useState('');
   const [algoritm, setAlgorithm] = useState('');
-  const [count, setCount] = useState('0');
+  const [count, setCount] = useState(0);
   const [liveUpdate, setLiveUpdate] = useState(false);
   const [delayInput, setDelayInput] = useState(0);
 
@@ -35,8 +35,8 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
   };
 
   const handleApply = () => {
-    if (element === '' || algoritm === '' || count === '0') {
-      alert('Please fill in all fields.');
+    if (element === '' || algoritm === '' || count <= 0) {
+      alert('Your input is not valid');
       return;
     }
     console.log("Delay: ", delayInput);
@@ -54,7 +54,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
 
   return (
     <div className="flex flex-col items-center bg-[#D09D48] rounded-[16px] px-6 py-8">
-      <h1 className="text-[#4E3625] text-[24px] font-serif font-bold mb-4">SEARCH</h1>
+      <h1 className="text-[#4E3625] text-[24px] font-serif font-bold mb-2 ">SEARCH</h1>
 
       {/* Search Bar */}
       <div className="relative w-full">
@@ -116,7 +116,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
         </div>
       </div>
 
-      {/* Count */}
+      {/* Count
       <div className="w-full mt-4">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Recipe Parameter: </p>
         <select
@@ -131,7 +131,19 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
             </option>
           ))}
         </select>
+      </div> */}
+      <div className="w-full mt-4">
+        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Count:</p>
+        <input
+          type="number"
+          placeholder="Count"
+          className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
       </div>
+
+
+
       {/* Algorithm Dropdown */}
       <div className="w-full mt-4">
         <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Live Update?</p>
@@ -164,14 +176,13 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
           type="number"
           placeholder="Delay"
           className="w-full py-1 rounded-2xl bg-[#F2EAD3] text-[#333333] placeholder-[#666666] text-center shadow-md focus:outline-none focus:ring-2 focus:ring-[#A4752A] transition"
-          value={delayInput}
           onChange={(e) => setDelayInput(Number(e.target.value))}
         />
       </div>
       )}
 
       {/* apply button */}
-      <div className="w-full mt-10">
+      <div className="w-full mt-4">
         <button
           onClick={handleApply}
           className="w-full py-2 bg-[#A4752A] text-white rounded-2xl shadow-md hover:bg-[#8B5B2A] transition duration-200">
