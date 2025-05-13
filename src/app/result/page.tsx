@@ -185,7 +185,7 @@ export default function ResultPage() {
                     )}
                     
                     {Array.isArray(treeData) && treeData.length > 0 ? (
-                        <div className="w-full mt-10 md:mt-0">
+                        <div className="w-full h-1/2 md:h-auto mt-10 md:mt-0">
                             <TreeRecipe treeData={treeData} />
                         </div>
                     ) : (
