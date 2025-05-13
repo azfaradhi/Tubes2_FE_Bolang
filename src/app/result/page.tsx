@@ -16,6 +16,7 @@ export default function ResultPage() {
     const [isComeBack, setIsComeBack] = useState(false);
     const [treeData, setTreeData] = useState<RawNodeDatum[] | null>(null);
     const [resultInfo, setResultInfo] = useState<ResultData>({ time: "0", node: "0" });
+    const [isNoSolution, setIsNoSolution] = useState(false);
     const [params, setParams] = useState({
         element: '',
         algorithm: '',
@@ -135,8 +136,12 @@ export default function ResultPage() {
 
             socket.onclose = (event) => {
                 console.log(`WebSocket connection closed: ${event.code} ${event.reason}`);
+                if (!treeData) {
+                    setIsNoSolution(true);
+                }
                 setWsStatus(`Connection closed: ${event.code} ${event.reason || ''}`);
-                
+
+
                 if (isLoading) {
                     setIsLoading(false);
                 }
@@ -181,18 +186,16 @@ export default function ResultPage() {
                     
                     {Array.isArray(treeData) && treeData.length > 0 ? (
                         <div className="w-full">
-                            {/* {isLoading && (
-                                <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-md z-10">
-                                    Processing...
-                                </div>
-                            )} */}
                             <TreeRecipe treeData={treeData} />
                         </div>
                     ) : (
                         <div className="flex justify-center items-center w-full">
-                            <p className="text-[#F2EAD3]">Loading...</p>
+                            <p className="text-[#F2EAD3]">
+                                {isNoSolution ? "No solution found" : "Loading..."}
+                            </p>
                         </div>
                     )}
+                    
                 </div>
                 
             </div>
