@@ -60,12 +60,7 @@ export default function Home() {
             <h2 className="text-xl font-bold text-center">About</h2>
 
             <p className="text-justify">
-              <strong>Alchemy Finder</strong> is an open-source visualization tool for exploring combinations of elements using BFS/DFS/BID (Bidirectional) algorithms. Multiple recipe methods are used, and the number of recipes must be specified.
-            </p>
-
-            <p className="text-justify">
-              It is designed for educational purposes, creative exploration, and experimentation. To be used with
-              <a href="https://littlealchemy2.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-200"> Little Alchemy 2</a>.
+              <strong>Alchemy Finder</strong> is an open-source visualization tool for exploring combinations of elements using BFS/DFS/BID (Bidirectional) algorithms. Multiple recipe methods are used, and the number of recipes must be specified. It is designed for educational purposes, creative exploration, and experimentation.
             </p>
 
             <p className="text-justify">
