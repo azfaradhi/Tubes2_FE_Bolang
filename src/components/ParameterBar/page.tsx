@@ -133,7 +133,7 @@ export default function ParameterBar({ onSelect }: { onSelect: (value: inputData
         </select>
       </div> */}
       <div className="w-full mt-4">
-        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Count:</p>
+        <p className='text-[#4E3625] text-[16px] font-serif font-semibold mb-2'>Max Recipes:</p>
         <input
           type="number"
           placeholder="Count"
