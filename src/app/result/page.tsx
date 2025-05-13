@@ -179,13 +179,13 @@ export default function ResultPage() {
                     </div>
                 </div>
                 
-                <div className="flex flex-row h-full">
+                <div className="flex flex-col md:flex-row h-full">
                     {!isLoading && (
                         <ResultBar resultInfo={resultInfo} onSelect={handleSelect} />
                     )}
                     
                     {Array.isArray(treeData) && treeData.length > 0 ? (
-                        <div className="w-full">
+                        <div className="w-full mt-10 md:mt-0">
                             <TreeRecipe treeData={treeData} />
                         </div>
                     ) : (
